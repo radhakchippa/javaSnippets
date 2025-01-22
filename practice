@@ -10,3 +10,15 @@ for(Map.Entry<Integer, Integer> mapEntry: map.entrySet()){
     return false; 
   }   
 }
+
+//map with Comprator - asc + dec
+
+//EntrySet with compartor - asc + dec
+
+//priorityQueue code
+
+//create a List using collections
+
+//Convert list to Array and Array to List
+
+//initialize arrays.
