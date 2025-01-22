@@ -1,0 +1,12 @@
+//push a key into HashMap and maintain counter for the same key in the Map.
+HashMap<K,V> map = new HashMap<>();
+for(Integer node: edgeNodesList){
+  nodeEdgeCounter.put(node, map.getOrDefault(node, 0)+1);
+}
+
+//Get EntrySet and access keys and values directly form the Map.
+for(Map.Entry<Integer, Integer> mapEntry: map.entrySet()){
+  if(mapEntry.getValue() %2 != 0){
+    return false; 
+  }   
+}
