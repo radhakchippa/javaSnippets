@@ -17,7 +17,7 @@ List<Integer> arr = Arrays.asList(new Integer[10]);
 //Create fixed size ArrayList and Initialise with default. size = n, Value= false.
 ArrayList<Boolean> myList=new ArrayList<Boolean>(Collections.nCopies(n, false));
 //replace existing elements in List with default value.
-Collections.fill(myList, Boolean.False);
+Collections.fill(myList, Boolean.True);
 
 //map with Comprator - asc + dec
 
