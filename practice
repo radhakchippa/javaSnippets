@@ -11,6 +11,12 @@ for(Map.Entry<Integer, Integer> mapEntry: map.entrySet()){
   }   
 }
 
+//initialize the List with a fixed size.
+List<Integer> arr = Arrays.asList(new Integer[10]);
+
+//Fill existing list with a fixed value.
+Collections.fill(arr, 0);
+
 //map with Comprator - asc + dec
 
 //EntrySet with compartor - asc + dec
