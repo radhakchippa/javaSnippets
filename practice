@@ -13,14 +13,10 @@ for(Map.Entry<Integer, Integer> mapEntry: map.entrySet()){
 
 //convert Array into a fixed size List.
 List<Integer> arr = Arrays.asList(new Integer[10]);
-//Fill existing list with a fixed value.
-Collections.fill(arr, 0);
 
 //Create fixed size ArrayList and Initialise with default. size = n, Value= false.
-ArrayList<Boolean> subList=new ArrayList<Boolean>(Collections.nCopies(n, false));
-
-//Create an ArrayList and then initialize with default value in next step.
-ArrayList<Boolean> myList = new ArrayList<>();
+ArrayList<Boolean> myList=new ArrayList<Boolean>(Collections.nCopies(n, false));
+//replace existing elements in List with default value.
 Collections.fill(myList, Boolean.False);
 
 //map with Comprator - asc + dec
