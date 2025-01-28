@@ -19,6 +19,51 @@ ArrayList<Boolean> myList=new ArrayList<Boolean>(Collections.nCopies(n, false));
 //replace existing elements in List with default value.
 Collections.fill(myList, Boolean.True);
 
+//Initialize a normal queue, for Graphs use only Normal Queue.
+Queue<Integer> queue = new LinkedList<>();
+queue.add(5);   
+Integer top = queue.poll();
+
+*** For regular Graphs, use LinkedList based queue ***
+Implementation: LinkedList class
+FIFO (First-In-First-Out): Elements are added at the rear (end) and removed from the front (beginning).
+Methods: add(), offer(), remove(), poll(), peek(), element()
+
+2. Priority Queue: *** For Kth Largest Element, use PriorityQueue with Comparator ***
+Implementation: PriorityQueue class
+Priority-Based: Elements are ordered based on their natural ordering or a custom comparator.
+Methods: add(), offer(), remove(), poll(), peek(), element()
+
+Example:
+Java
+
+import java.util.PriorityQueue;
+
+public class PriorityQueueExample {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(3);
+        pq.add(1);
+        pq.add(4);
+        pq.add(2);
+
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll()); // Output: 1, 2, 3, 4
+        }
+    }
+}
+3. Deque (Double-Ended Queue):
+Implementation: ArrayDeque or LinkedList classes
+Insertion and Removal at Both Ends: Elements can be added or removed from both the front and rear.
+Methods: addFirst(), addLast(), offerFirst(), offerLast(), removeFirst(), removeLast(), pollFirst(), pollLast(), peekFirst(), peekLast()
+
+4. BlockingQueue:
+Interface: BlockingQueue
+Thread-Safe: Designed for producer-consumer scenarios, where one thread adds elements to the queue and another thread removes them.
+Implementations: LinkedBlockingQueue, ArrayBlockingQueue, PriorityBlockingQueue, SynchronousQueue
+Methods: put(), take(), offer(), poll(), peek()
+
+
 //map with Comprator - asc + dec
 
 //EntrySet with compartor - asc + dec
