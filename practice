@@ -63,7 +63,115 @@ Thread-Safe: Designed for producer-consumer scenarios, where one thread adds ele
 Implementations: LinkedBlockingQueue, ArrayBlockingQueue, PriorityBlockingQueue, SynchronousQueue
 Methods: put(), take(), offer(), poll(), peek()
 
+//DFS - Graph Traversal
+static  ArrayList<Integer> traverseList = new ArrayList<>();
+    static ArrayList<Integer> dfs_traversal(Integer n, ArrayList<ArrayList<Integer>> edges) {
 
+    
+    ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+    
+       // Initialize graph
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+    // Making a graph from the input edges
+        for (ArrayList<Integer> edge : edges) {
+            int u = edge.get(0);
+            int v = edge.get(1);
+            graph.get(u).add(v);
+            graph.get(v).add(u); // For undirected graph
+        }
+    
+    
+    ArrayList<Boolean> visitedList=new ArrayList<Boolean>(Collections.nCopies(n, false));
+    
+    for(int i=0;i<n;i++){
+    dfsHelper(graph,i,visitedList);
+    }
+        return traverseList;
+    }
+
+
+static     void dfsHelper(ArrayList<ArrayList<Integer>> graph,Integer node,ArrayList<Boolean> visitedList){
+        if(!visitedList.get(node)){
+            traverseList.add(node);
+             ArrayList<Integer> adjacentListNode=graph.get(node);
+                   visitedList.set(node,true); 
+             for(Integer visitedNode:adjacentListNode){
+                 dfsHelper(graph,visitedNode,visitedList);
+             }
+             
+        }
+    }
+
+//BFS - Graph Traversal
+static ArrayList<Integer> bfs_traversal(Integer n, ArrayList<ArrayList<Integer>> edges) {
+        // Write your code here.
+         ArrayList<ArrayList<Integer>> nodeList = new ArrayList<>(n);
+       
+      for(int i=0;i<n;i++){
+          
+          nodeList.add(i,new ArrayList<Integer>());
+          
+          //Collections.sort(nodeList.get(i));
+
+      }
+       
+       
+    for(ArrayList<Integer> edge : edges){
+        
+         nodeList.get(edge.get(0)).add(1);
+     
+      
+      //Collections.sort(nodeList.get(edge.get(0)));
+      
+          nodeList.get(edge.get(1)).add(edge.get(0));
+      //Collections.sort(nodeList.get(edge.get(1)));
+          
+         
+        
+    }
+   System.out.println(nodeList);
+       
+ 
+        ArrayList<Integer> visitedList = new ArrayList<>(Collections.nCopies(n,0));
+          
+        ArrayList<Integer> unVisitedList = new ArrayList<>(Collections.nCopies(n,1));
+        ArrayList<Integer> resultList = new ArrayList<>();
+         int i=0;
+         //Queue<Integer> queeue = new LinkedList<>();
+         Deque<Integer> queeue = new ArrayDeque<>();
+        if(unVisitedList.get(i) == 1){
+            queeue.addFirst(i);
+            while(!queeue.isEmpty()){
+               Integer node = queeue.removeFirst();
+               if(unVisitedList.get(node)==1){ 
+                visitedList.set(node,1);
+                unVisitedList.set(node,0);
+                }
+            
+                ArrayList<Integer> adjenctListNodes = nodeList.get(node);
+                
+                for(Integer nodex:adjenctListNodes){
+                    
+                    if(unVisitedList.get(nodex) == 1){
+                    queeue.addFirst(nodex);
+                    unVisitedList.set(nodex,0);
+                    }
+                }
+                resultList.add(node);   
+            }
+        }
+        
+        for(int j=0;j<unVisitedList.size();j++){
+            if(unVisitedList.get(j)==1){
+                resultList.add(j);
+            }
+            
+        }
+        
+        return resultList;
+    }
 //map with Comprator - asc + dec
 
 //EntrySet with compartor - asc + dec
