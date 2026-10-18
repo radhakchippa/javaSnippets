@@ -1,3 +1,56 @@
+//Initialize an ArrayList quickly with fixed number of integers
+List<Integer> arrayList = new ArrayList<>();
+arrayList.add(5);
+arrayList.add(4);
+arrayList.add(15);
+instead of above, we can use built in Arrays method as below
+List<Integer> arrayList = Arrays.asList(5, 4, 15);
+
+//Sort an array of int.
+int[] array = new int[] {2, 9, 6, 8 , 1, 10};
+Arrays.sort(array);  // this method will sort the int elements inside the array.
+Arrays.sort(array, 1, 4); // this method will sort the int elements inside the array from index 1(inclusive) to 4 (exclusive).
+
+//Arrays Sort method with Custom Comparator.
+public class CustomComparatorExample {
+    public static void main(String[] args) {
+        Product[] products = {
+            new Product("Laptop", 1200.00),
+            new Product("Smartphone", 800.00),
+            new Product("Headphones", 150.00),
+            new Product("Tablet", 800.00)
+        };
+
+        // Custom Comparator: Sort by price (descending), then by name (ascending)
+        Comparator<Product> productComparator = Comparator
+                .comparingDouble(Product::price).reversed()
+                .thenComparing(Product::name);
+
+        // Apply the custom comparator to the array
+        Arrays.sort(products, productComparator);
+
+        // Output the sorted results
+        System.out.println(Arrays.toString(products));
+    }
+}
+//Variations - Alternative Custom Sorting Syntaxes
+
+**Depending on your use case, you can implement custom Comparator logic using three different syntax variations:**
+
+Style	Syntax Example	Best Used For
+Method Reference / Chained	Comparator.comparingDouble(Product::price)	Standard, clean sorting based on existing fields or records.
+Lambda Expression	(p1, p2) -> Double.compare(p2.price(), p1.price())	Inline logic that does not naturally fit a simple getter or extractor.
+Anonymous Inner Class	new Comparator<Product>() { ... }	Legacy codebases or complex, multi-line nested routing comparisons.
+
+
+
+//Search an element index in array.
+int[] array = {50, 40, 10, 90, 3, 89};
+Arrays.sort(array); // first sort the array using build in method.
+int key = 10;
+int index = Arrays.binarySearch(arr, key); // returns the index where the eleemnt is found after sorting.
+
+
 //push a key into HashMap and maintain counter for the same key in the Map.
 HashMap<K,V> map = new HashMap<>();
 for(Integer node: edgeNodesList){
@@ -11,8 +64,7 @@ for(Map.Entry<Integer, Integer> mapEntry: map.entrySet()){
   }   
 }
 
-//convert Array into a fixed size List.
-List<Integer> arr = Arrays.asList(new Integer[10]);
+
 
 //Create fixed size ArrayList and Initialise with default. size = n, Value= false.
 ArrayList<Boolean> myList=new ArrayList<Boolean>(Collections.nCopies(n, false));
