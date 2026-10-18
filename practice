@@ -1,102 +1,69 @@
-# Java Snippets
+# Java Cheat Sheet
 
-A quick cheat sheet for common Java collection and graph patterns.
-
----
-
-## 1) Initialize an ArrayList quickly
+## 1. Arrays
 
 ```java
-List<Integer> arrayList = new ArrayList<>();
-arrayList.add(5);
-arrayList.add(4);
-arrayList.add(15);
-```
-
-Instead of adding one by one, use `Arrays.asList()`:
-
-```java
-List<Integer> numbers = Arrays.asList(5, 4, 15);
-```
-
-Note: `Arrays.asList()` returns a fixed-size list.
-
----
-
-## 2) Sort an array of int
-
-```java
-int[] array = {2, 9, 6, 8, 1, 10};
-
-Arrays.sort(array);          // Sort the full array
-Arrays.sort(array, 1, 4);    // Sort from index 1 (inclusive) to 4 (exclusive)
-```
-
----
-
-## 3) Sort with a custom Comparator
-
-```java
-public class CustomComparatorExample {
-    public static void main(String[] args) {
-        Product[] products = {
-            new Product("Laptop", 1200.00),
-            new Product("Smartphone", 800.00),
-            new Product("Headphones", 150.00),
-            new Product("Tablet", 800.00)
-        };
-
-        Comparator<Product> productComparator = Comparator
-                .comparingDouble(Product::price).reversed()
-                .thenComparing(Product::name);
-
-        Arrays.sort(products, productComparator);
-        System.out.println(Arrays.toString(products));
-    }
-}
-```
-
-### Comparator styles
-
-| Style | Example | Best for |
-|---|---|---|
-| Method reference / chained | `Comparator.comparingDouble(Product::price)` | Standard and clean sorting |
-| Lambda expression | `(p1, p2) -> Double.compare(p2.price(), p1.price())` | Inline custom logic |
-| Anonymous inner class | `new Comparator<Product>() { ... }` | Legacy or more complex custom logic |
-
----
-
-## 4) Search an element index in an array
-
-```java
-int[] array = {50, 40, 10, 90, 3, 89};
-Arrays.sort(array);    // Sort first
+int[] arr = {2, 9, 6, 8, 1, 10};
+Arrays.sort(arr);               // full sort
+Arrays.sort(arr, 1, 4);        // sort indexes 1..3
 
 int key = 10;
-int index = Arrays.binarySearch(array, key); // Returns index after sorting
+int index = Arrays.binarySearch(arr, key); // works after sorting
 ```
 
 ---
 
-## 5) HashMap counter pattern
+## 2. List Initialization
 
 ```java
-HashMap<Integer, Integer> map = new HashMap<>();
+List<Integer> list = new ArrayList<>();
+list.add(5);
+list.add(4);
+list.add(15);
+
+// Alternative:
+List<Integer> list2 = Arrays.asList(5, 4, 15); // fixed-size
+```
+
+```java
+ArrayList<Boolean> flags = new ArrayList<>(Collections.nCopies(n, false));
+Collections.fill(flags, Boolean.TRUE); // replace all values
+```
+
+---
+
+## 3. Custom Comparator
+
+```java
+Comparator<Product> cmp = Comparator
+    .comparingDouble(Product::price)
+    .reversed()
+    .thenComparing(Product::name);
+
+Arrays.sort(products, cmp);
+```
+
+### Common comparator styles
+
+- Method reference: `Comparator.comparingDouble(Product::price)`
+- Lambda: `(p1, p2) -> Double.compare(p2.price(), p1.price())`
+- Anonymous class: `new Comparator<Product>() { ... }`
+
+---
+
+## 4. Map Counter Pattern
+
+```java
+Map<Integer, Integer> counter = new HashMap<>();
 
 for (Integer node : edgeNodesList) {
-    map.put(node, map.getOrDefault(node, 0) + 1);
+    counter.put(node, counter.getOrDefault(node, 0) + 1);
 }
 ```
 
-This keeps a count for each key in the map.
-
----
-
-## 6) Iterate over EntrySet directly
-
 ```java
-for (Map.Entry<Integer, Integer> mapEntry : map.entrySet()) {
-    if (mapEntry.getValue() % 2 != 0) {
+for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+    if (e.getValue() % 2 != 0) {
         return false;
     }
 }
@@ -104,21 +71,7 @@ for (Map.Entry<Integer, Integer> mapEntry : map.entrySet()) {
 
 ---
 
-## 7) Create a fixed-size ArrayList with default values
-
-```java
-ArrayList<Boolean> myList = new ArrayList<>(Collections.nCopies(n, false));
-```
-
-Replace the existing list values with a default value:
-
-```java
-Collections.fill(myList, Boolean.TRUE);
-```
-
----
-
-## 8) Queue basics
+## 5. Queue Types
 
 ```java
 Queue<Integer> queue = new LinkedList<>();
@@ -126,17 +79,12 @@ queue.add(5);
 Integer top = queue.poll();
 ```
 
-### Queue types
+### Queue basics
 
-1. Normal Queue
-   - Use `LinkedList`
-   - FIFO: first in, first out
-   - Methods: `add()`, `offer()`, `remove()`, `poll()`, `peek()`, `element()`
-
-2. Priority Queue
-   - Use `PriorityQueue`
-   - Best for: Kth largest element / priority-based ordering
-   - Methods: `add()`, `offer()`, `remove()`, `poll()`, `peek()`, `element()`
+- Queue: FIFO (`LinkedList`)
+- PriorityQueue: priority-based ordering
+- Deque: add/remove from both ends (`ArrayDeque`, `LinkedList`)
+- BlockingQueue: thread-safe producer/consumer queue
 
 ```java
 PriorityQueue<Integer> pq = new PriorityQueue<>();
@@ -146,140 +94,107 @@ pq.add(4);
 pq.add(2);
 
 while (!pq.isEmpty()) {
-    System.out.println(pq.poll()); // 1, 2, 3, 4
+    System.out.println(pq.poll());   // 1, 2, 3, 4
 }
 ```
 
-3. Deque (Double-Ended Queue)
-   - Use `ArrayDeque` or `LinkedList`
-   - Can add/remove at both ends
-   - Methods: `addFirst()`, `addLast()`, `offerFirst()`, `offerLast()`, `removeFirst()`, `removeLast()`, `pollFirst()`, `pollLast()`, `peekFirst()`, `peekLast()`
-
-4. BlockingQueue
-   - Thread-safe for producer-consumer patterns
-   - Implementations: `LinkedBlockingQueue`, `ArrayBlockingQueue`, `PriorityBlockingQueue`, `SynchronousQueue`
-   - Methods: `put()`, `take()`, `offer()`, `poll()`, `peek()`
-
 ---
 
-## 9) DFS traversal (Graph)
+## 6. DFS (Graph)
 
 ```java
 static ArrayList<Integer> traverseList = new ArrayList<>();
 
-static ArrayList<Integer> dfs_traversal(Integer n, ArrayList<ArrayList<Integer>> edges) {
-    ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-
-    for (int i = 0; i < n; i++) {
-        graph.add(new ArrayList<>());
-    }
-
-    for (ArrayList<Integer> edge : edges) {
-        int u = edge.get(0);
-        int v = edge.get(1);
-        graph.get(u).add(v);
-        graph.get(v).add(u); // Undirected graph
-    }
-
-    ArrayList<Boolean> visitedList = new ArrayList<>(Collections.nCopies(n, false));
-
-    for (int i = 0; i < n; i++) {
-        dfsHelper(graph, i, visitedList);
-    }
-
-    return traverseList;
-}
-
-static void dfsHelper(ArrayList<ArrayList<Integer>> graph, Integer node, ArrayList<Boolean> visitedList) {
-    if (!visitedList.get(node)) {
+static void dfsHelper(ArrayList<ArrayList<Integer>> graph, Integer node, ArrayList<Boolean> visited) {
+    if (!visited.get(node)) {
         traverseList.add(node);
-        visitedList.set(node, true);
+        visited.set(node, true);
 
         for (Integer neighbor : graph.get(node)) {
-            dfsHelper(graph, neighbor, visitedList);
+            dfsHelper(graph, neighbor, visited);
         }
     }
 }
 ```
 
+```java
+ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
+
+for (ArrayList<Integer> edge : edges) {
+    int u = edge.get(0);
+    int v = edge.get(1);
+    graph.get(u).add(v);
+    graph.get(v).add(u); // undirected graph
+}
+```
+
 ---
 
-## 10) BFS traversal (Graph)
+## 7. BFS (Graph)
 
 ```java
 static ArrayList<Integer> bfs_traversal(Integer n, ArrayList<ArrayList<Integer>> edges) {
-    ArrayList<ArrayList<Integer>> nodeList = new ArrayList<>(n);
-
+    ArrayList<ArrayList<Integer>> graph = new ArrayList<>(n);
     for (int i = 0; i < n; i++) {
-        nodeList.add(i, new ArrayList<>());
+        graph.add(i, new ArrayList<>());
     }
 
     for (ArrayList<Integer> edge : edges) {
-        nodeList.get(edge.get(0)).add(edge.get(1));
-        nodeList.get(edge.get(1)).add(edge.get(0));
+        graph.get(edge.get(0)).add(edge.get(1));
+        graph.get(edge.get(1)).add(edge.get(0));
     }
 
-    ArrayList<Integer> visitedList = new ArrayList<>(Collections.nCopies(n, 0));
-    ArrayList<Integer> unVisitedList = new ArrayList<>(Collections.nCopies(n, 1));
-    ArrayList<Integer> resultList = new ArrayList<>();
-
+    ArrayList<Integer> visited = new ArrayList<>(Collections.nCopies(n, 0));
+    ArrayList<Integer> unvisited = new ArrayList<>(Collections.nCopies(n, 1));
+    ArrayList<Integer> result = new ArrayList<>();
     Deque<Integer> queue = new ArrayDeque<>();
 
-    if (unVisitedList.get(0) == 1) {
+    if (unvisited.get(0) == 1) {
         queue.addFirst(0);
-
         while (!queue.isEmpty()) {
-            Integer node = queue.removeFirst();
-
-            if (unVisitedList.get(node) == 1) {
-                visitedList.set(node, 1);
-                unVisitedList.set(node, 0);
+            int node = queue.removeFirst();
+            if (unvisited.get(node) == 1) {
+                visited.set(node, 1);
+                unvisited.set(node, 0);
             }
 
-            ArrayList<Integer> adjacentNodes = nodeList.get(node);
-
-            for (Integer neighbor : adjacentNodes) {
-                if (unVisitedList.get(neighbor) == 1) {
+            for (int neighbor : graph.get(node)) {
+                if (unvisited.get(neighbor) == 1) {
                     queue.addFirst(neighbor);
-                    unVisitedList.set(neighbor, 0);
+                    unvisited.set(neighbor, 0);
                 }
             }
-
-            resultList.add(node);
+            result.add(node);
         }
     }
 
-    for (int j = 0; j < unVisitedList.size(); j++) {
-        if (unVisitedList.get(j) == 1) {
-            resultList.add(j);
-        }
-    }
-
-    return resultList;
+    return result;
 }
 ```
 
 ---
 
-## 11) Useful reminders
+## 8. Quick Notes
 
-- `Map` + comparator: use custom comparator for sorting map entries
-- `EntrySet` + comparator: useful for sorting by key or value
-- `PriorityQueue`: ideal for Kth largest element problems
-- `Collections.nCopies()`: creates a list with repeated default values
-- Convert between list and array using `list.toArray()` and `Arrays.asList()`
+```java
+// Convert array -> list
+List<Integer> list = Arrays.asList(arr);
+
+// Convert list -> array
+Integer[] arr = list.toArray(new Integer[0]);
+
+// Create list with repeated default values
+List<Boolean> list = new ArrayList<>(Collections.nCopies(n, false));
+```
 
 ---
 
-## TODO / Quick notes
+## 9. Short Reminder
 
-```java
-// map with Comparator - asc + desc
-// EntrySet with comparator - asc + dec
-// priorityQueue code
-// create a List using collections
-// Convert list to Array and Array to List
-// initialize arrays
-```
+- `Arrays.sort()` sorts arrays in-place.
+- `Collections.fill()` fills a list with a value.
+- `PriorityQueue` works well for Kth largest problems.
+- `HashMap` with `getOrDefault()` is useful for counters.
+- `Deque` is best for BFS/queue-style operations.
 
-This file is a compact Java reference for common interview and algorithm patterns.
